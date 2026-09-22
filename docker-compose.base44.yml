@@ -1,0 +1,16 @@
+services:
+  web:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:5173"
+    environment:
+      # Vite >= 6.1 appends this platform-managed value to allowedHosts
+      - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+    env_file:
+      - ./.env.base44-defaults   # placeholders so the app boots without credentials
+      - /run/base44/app.env       # platform-delivered secrets — always wins
+    command: sh -c "npm install && npx vite --host 0.0.0.0 --port 5173"
