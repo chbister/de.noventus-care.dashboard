@@ -9,6 +9,13 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      if (window.location.port === '3000') {
+        const url = new URL(window.location.href);
+        url.searchParams.set('analytics-enable', 'false');
+        window.history.replaceState({}, '', url);
+      }
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
