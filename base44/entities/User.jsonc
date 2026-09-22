@@ -1,0 +1,36 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "einrichtungsleitung",
+        "pflegedienstleitung",
+        "verwaltung",
+        "benutzer_ilsede"
+      ],
+      "default": "verwaltung",
+      "description": "Rolle des Benutzers"
+    },
+    "erlaubte_einrichtungen": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs der Einrichtungen, auf die der Benutzer Zugriff hat"
+    },
+    "erlaubte_seiten": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Erlaubte Seiten/Tabs (z.B. ['dashboard','wohnbereiche','mitarbeiter'])"
+    }
+  },
+  "required": [
+    "erlaubte_einrichtungen",
+    "erlaubte_seiten"
+  ]
+}

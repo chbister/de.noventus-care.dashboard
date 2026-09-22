@@ -1,0 +1,65 @@
+{
+  "name": "Aenderungsprotokoll",
+  "type": "object",
+  "properties": {
+    "entity_type": {
+      "type": "string",
+      "description": "Welche Entit\u00e4t wurde ge\u00e4ndert (z.B. Mitarbeiter, Wohnbereich)"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "create",
+        "update",
+        "delete"
+      ],
+      "description": "Art der \u00c4nderung"
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "ID des ge\u00e4nderten Datensatzes"
+    },
+    "entity_name_snapshot": {
+      "type": "string",
+      "description": "Lesbarer Name zum Zeitpunkt der \u00c4nderung"
+    },
+    "changed_fields": {
+      "type": "string",
+      "description": "Komma-getrennte Liste der ge\u00e4nderten Felder"
+    },
+    "changed_by": {
+      "type": "string",
+      "description": "E-Mail des Benutzers, der die \u00c4nderung vorgenommen hat"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (falls verf\u00fcgbar)"
+    }
+  },
+  "required": [
+    "entity_type",
+    "action"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

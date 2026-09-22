@@ -1,0 +1,74 @@
+{
+  "name": "Mapping_MediFox",
+  "type": "object",
+  "properties": {
+    "kst_nr_medifox": {
+      "type": "string",
+      "description": "Kostenstelle aus MediFox (intern)"
+    },
+    "base44_kostenstelle": {
+      "type": "string",
+      "description": "Zugeordnete Kostenstelle in Base44"
+    },
+    "bereich": {
+      "type": "string",
+      "enum": [
+        "BW",
+        "TP",
+        "EGH"
+      ],
+      "description": "Bereich: Betreutes Wohnen, Tagespflege oder Eingliederungshilfe"
+    },
+    "l_art_medifox": {
+      "type": "string",
+      "description": "Leistungsart aus MediFox (z.B. SGB11, SGB12, PRIVAT)"
+    },
+    "base44_leistungstyp": {
+      "type": "string",
+      "description": "Leistungstyp in Base44"
+    },
+    "ma_handzeichen_medifox": {
+      "type": "string",
+      "description": "Mitarbeiter-Handzeichen aus MediFox"
+    },
+    "base44_ma_id": {
+      "type": "string",
+      "description": "Mitarbeiter-ID in Base44"
+    },
+    "aktiv": {
+      "type": "boolean",
+      "default": true,
+      "description": "Mapping aktiv?"
+    },
+    "notiz": {
+      "type": "string",
+      "description": "Fachliche Hinweise"
+    }
+  },
+  "required": [
+    "kst_nr_medifox",
+    "base44_kostenstelle"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

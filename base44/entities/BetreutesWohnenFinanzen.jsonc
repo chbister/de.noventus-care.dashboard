@@ -1,0 +1,62 @@
+{
+  "name": "BetreutesWohnenFinanzen",
+  "type": "object",
+  "properties": {
+    "monat_jahr": {
+      "type": "string",
+      "format": "date",
+      "description": "Monats-Datum (z.B. 2026-04-01)"
+    },
+    "kostenstelle": {
+      "type": "string",
+      "description": "Kostenstelle aus ERP"
+    },
+    "konto_nr": {
+      "type": "string",
+      "description": "Sachkonto aus ERP"
+    },
+    "konto_bezeichnung": {
+      "type": "string",
+      "description": "Kontobezeichnung"
+    },
+    "betrag_soll": {
+      "type": "number",
+      "default": 0,
+      "description": "Sollbetrag in EUR"
+    },
+    "betrag_haben": {
+      "type": "number",
+      "default": 0,
+      "description": "Ist-Betrag (Ums\u00e4tze) in EUR"
+    },
+    "bemerkung": {
+      "type": "string",
+      "description": "Notiz"
+    }
+  },
+  "required": [
+    "monat_jahr",
+    "kostenstelle"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

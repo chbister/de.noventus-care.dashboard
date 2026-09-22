@@ -1,0 +1,134 @@
+{
+  "name": "ExportEinstellung",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "export_empfaenger_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "export_heimkosten": {
+      "type": "boolean",
+      "default": true
+    },
+    "export_bewohner_kosten": {
+      "type": "boolean",
+      "default": true
+    },
+    "export_mitarbeiter": {
+      "type": "boolean",
+      "default": true
+    },
+    "export_verguetung": {
+      "type": "boolean",
+      "default": true
+    },
+    "export_wohnbereiche": {
+      "type": "boolean",
+      "default": true
+    },
+    "export_tagespflege": {
+      "type": "boolean",
+      "default": true
+    },
+    "export_dashboard": {
+      "type": "boolean",
+      "default": true
+    },
+    "auto_export_aktiv": {
+      "type": "boolean",
+      "default": true
+    },
+    "auto_export_tag": {
+      "type": "number",
+      "default": 1
+    },
+    "auto_export_uhrzeit": {
+      "type": "string",
+      "default": "07:00"
+    },
+    "auto_export_monate": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "default": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    "vierzehntaegig_aktiv": {
+      "type": "boolean",
+      "default": false
+    },
+    "vierzehntaegig_uhrzeit": {
+      "type": "string",
+      "default": "07:00"
+    }
+  },
+  "required": [],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

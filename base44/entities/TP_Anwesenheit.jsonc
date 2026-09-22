@@ -1,0 +1,69 @@
+{
+  "name": "TP_Anwesenheit",
+  "type": "object",
+  "properties": {
+    "datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Besuchsdatum"
+    },
+    "gast_id": {
+      "type": "string",
+      "description": "Verkn\u00fcpfung zu TP_Gaeste"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Anwesend",
+        "Entschuldigt",
+        "Unentschuldigt"
+      ],
+      "description": "Anwesenheitsstatus"
+    },
+    "abrechenbar": {
+      "type": "boolean",
+      "default": true,
+      "description": "Kann der Tag trotz Abwesenheit berechnet werden?"
+    },
+    "fahrdienst_hinfahrt": {
+      "type": "boolean",
+      "default": false,
+      "description": "Fahrdienst Hinfahrt genutzt?"
+    },
+    "fahrdienst_ruckfahrt": {
+      "type": "boolean",
+      "default": false,
+      "description": "Fahrdienst R\u00fcckfahrt genutzt?"
+    },
+    "bemerkung": {
+      "type": "string",
+      "description": "Notizen (z.B. Grund der Abwesenheit)"
+    }
+  },
+  "required": [
+    "datum",
+    "gast_id",
+    "status"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

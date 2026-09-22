@@ -1,0 +1,115 @@
+{
+  "name": "Alert",
+  "type": "object",
+  "properties": {
+    "typ": {
+      "type": "string",
+      "enum": [
+        "budget_ueberschritten",
+        "belegung_rueckgang",
+        "fehlzeiten_spitze",
+        "personaldecke"
+      ],
+      "description": "Alert-Typ"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "warning",
+        "info"
+      ],
+      "default": "warning",
+      "description": "Schweregrad"
+    },
+    "titel": {
+      "type": "string",
+      "description": "Kurzer Titel"
+    },
+    "nachricht": {
+      "type": "string",
+      "description": "Detailierte Beschreibung"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "einrichtung_name": {
+      "type": "string",
+      "description": "Name der Einrichtung"
+    },
+    "kategorie_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Sachkosten-Kategorie (optional)"
+    },
+    "wert_aktuell": {
+      "type": "number",
+      "default": 0,
+      "description": "Aktueller Wert, der den Alert ausgel\u00f6st hat"
+    },
+    "wert_schwellwert": {
+      "type": "number",
+      "default": 0,
+      "description": "Schwellwert, bei dem der Alert ausgel\u00f6st wird"
+    },
+    "ist_aktiv": {
+      "type": "boolean",
+      "default": true,
+      "description": "Alert ist aktiv (nicht quittiert)"
+    },
+    "quittiert_von": {
+      "type": "string",
+      "description": "E-Mail des Benutzers, der den Alert quittiert hat"
+    },
+    "quittiert_am": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Wann wurde der Alert quittiert?"
+    }
+  },
+  "required": [
+    "typ",
+    "titel",
+    "severity"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

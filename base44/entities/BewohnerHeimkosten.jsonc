@@ -1,0 +1,166 @@
+{
+  "name": "BewohnerHeimkosten",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "bewohner_name": {
+      "type": "string"
+    },
+    "zimmer": {
+      "type": "string"
+    },
+    "pflegegrad": {
+      "type": "string",
+      "enum": [
+        "PG1",
+        "PG2",
+        "PG3",
+        "PG4",
+        "PG5"
+      ]
+    },
+    "monat": {
+      "type": "number"
+    },
+    "jahr": {
+      "type": "number"
+    },
+    "anteil_pflegekasse": {
+      "type": "number",
+      "default": 0
+    },
+    "anteil_sozialamt": {
+      "type": "number",
+      "default": 0
+    },
+    "sozialamt_wohngeld": {
+      "type": "number",
+      "default": 0
+    },
+    "sozialamt_pflegewohngeld": {
+      "type": "number",
+      "default": 0
+    },
+    "sozialamt_uebergeleitet_rente": {
+      "type": "number",
+      "default": 0
+    },
+    "sozialamt_sozialhilfe": {
+      "type": "number",
+      "default": 0
+    },
+    "anteil_bewohner": {
+      "type": "number",
+      "default": 0
+    },
+    "betrag_gesamt": {
+      "type": "number",
+      "default": 0
+    },
+    "bezahlt_pflegekasse": {
+      "type": "number",
+      "default": 0
+    },
+    "bezahlt_sozialamt": {
+      "type": "number",
+      "default": 0
+    },
+    "bezahlt_sozialamt_wohngeld": {
+      "type": "number",
+      "default": 0
+    },
+    "bezahlt_sozialamt_pflegewohngeld": {
+      "type": "number",
+      "default": 0
+    },
+    "bezahlt_sozialamt_uebergeleitet_rente": {
+      "type": "number",
+      "default": 0
+    },
+    "bezahlt_sozialamt_sozialhilfe": {
+      "type": "number",
+      "default": 0
+    },
+    "bezahlt_bewohner": {
+      "type": "number",
+      "default": 0
+    },
+    "betrag_bezahlt": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "offen",
+        "teilweise_bezahlt",
+        "bezahlt"
+      ],
+      "default": "offen"
+    },
+    "zahlungsdatum": {
+      "type": "string",
+      "format": "date"
+    },
+    "bemerkung": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bewohner_name",
+    "monat",
+    "jahr"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

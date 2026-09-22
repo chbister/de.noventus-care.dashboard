@@ -1,0 +1,123 @@
+{
+  "name": "MonatsabschlussHistorie",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "monat": {
+      "type": "number"
+    },
+    "jahr": {
+      "type": "number"
+    },
+    "pdf_url": {
+      "type": "string"
+    },
+    "bewohner_gesamt": {
+      "type": "number"
+    },
+    "sollbelegung": {
+      "type": "number"
+    },
+    "auslastung_prozent": {
+      "type": "number"
+    },
+    "personal_soll_fk": {
+      "type": "number"
+    },
+    "personal_ist_fk": {
+      "type": "number"
+    },
+    "personal_abweichung_fk": {
+      "type": "number"
+    },
+    "personal_soll_hk_mit": {
+      "type": "number"
+    },
+    "personal_ist_hk_mit": {
+      "type": "number"
+    },
+    "personal_abweichung_hk_mit": {
+      "type": "number"
+    },
+    "personal_soll_hk_ohne": {
+      "type": "number"
+    },
+    "personal_ist_hk_ohne": {
+      "type": "number"
+    },
+    "personal_abweichung_hk_ohne": {
+      "type": "number"
+    },
+    "fachkraftquote_ist": {
+      "type": "number"
+    },
+    "betreuung_soll": {
+      "type": "number"
+    },
+    "betreuung_ist": {
+      "type": "number"
+    },
+    "betreuung_abweichung": {
+      "type": "number"
+    },
+    "bemerkung": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "monat",
+    "jahr"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

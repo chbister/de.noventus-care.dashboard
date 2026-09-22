@@ -1,0 +1,59 @@
+{
+  "name": "EGH_Finanzen",
+  "type": "object",
+  "properties": {
+    "monat_jahr": {
+      "type": "string",
+      "format": "date",
+      "description": "Buchungsmonat (z.B. 2026-04-01)"
+    },
+    "kostenstelle": {
+      "type": "string",
+      "description": "Zuordnung zur Wohngruppe/Dienst"
+    },
+    "erloese_fls": {
+      "type": "number",
+      "default": 0,
+      "description": "Summe der Haben-Buchungen (EGH-Erl\u00f6se in EUR)"
+    },
+    "personalkosten": {
+      "type": "number",
+      "default": 0,
+      "description": "Summe der Soll-Buchungen (Lohn/Gehalt in EUR)"
+    },
+    "sachkosten": {
+      "type": "number",
+      "default": 0,
+      "description": "Sachkosten (Material, Fahrt, etc.)"
+    },
+    "bemerkung": {
+      "type": "string",
+      "description": "Notiz"
+    }
+  },
+  "required": [
+    "monat_jahr",
+    "kostenstelle"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

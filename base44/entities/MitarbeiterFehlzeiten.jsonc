@@ -1,0 +1,100 @@
+{
+  "name": "MitarbeiterFehlzeiten",
+  "type": "object",
+  "properties": {
+    "mitarbeiter_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6riger Mitarbeiter (ID)"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "art": {
+      "type": "string",
+      "enum": [
+        "Krank",
+        "Urlaub",
+        "Fortbildung",
+        "Sonderurlaub",
+        "Unbezahlter Urlaub",
+        "Sonstiges"
+      ],
+      "default": "Krank",
+      "description": "Art der Fehlzeit"
+    },
+    "von_datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Von"
+    },
+    "bis_datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Bis"
+    },
+    "tage": {
+      "type": "number",
+      "default": 0,
+      "description": "Anzahl Fehltage (inkl. berechneter Werktage)"
+    },
+    "bemerkung": {
+      "type": "string",
+      "description": "Notiz"
+    }
+  },
+  "required": [
+    "mitarbeiter_id",
+    "art",
+    "von_datum"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

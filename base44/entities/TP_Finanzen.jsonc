@@ -1,0 +1,69 @@
+{
+  "name": "TP_Finanzen",
+  "type": "object",
+  "properties": {
+    "monat_jahr": {
+      "type": "string",
+      "format": "date",
+      "description": "Buchungszeitraum (z.B. 2026-04-01)"
+    },
+    "erloese_pflegesatz": {
+      "type": "number",
+      "default": 0,
+      "description": "Erl\u00f6se aus SGB XI Leistungen (EUR)"
+    },
+    "erloese_u_v": {
+      "type": "number",
+      "default": 0,
+      "description": "Unterkunft & Verpflegung / Eigenanteile (EUR)"
+    },
+    "investitionskosten": {
+      "type": "number",
+      "default": 0,
+      "description": "Investitionskosten (EUR)"
+    },
+    "personalkosten": {
+      "type": "number",
+      "default": 0,
+      "description": "Personalkosten Tagespflege (EUR)"
+    },
+    "fahrtkosten": {
+      "type": "number",
+      "default": 0,
+      "description": "Fahrtkosten / Fuhrpark (EUR)"
+    },
+    "verpflegungskosten": {
+      "type": "number",
+      "default": 0,
+      "description": "Verpflegungseinkauf (EUR)"
+    },
+    "bemerkung": {
+      "type": "string",
+      "description": "Notiz"
+    }
+  },
+  "required": [
+    "monat_jahr"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

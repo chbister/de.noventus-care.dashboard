@@ -1,0 +1,204 @@
+{
+  "name": "Mitarbeiter",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name, Vorname des Mitarbeiters"
+    },
+    "personalnummer": {
+      "type": "string",
+      "description": "Personalnummer aus dem Abrechnungssystem"
+    },
+    "wohnbereich_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6riger Wohnbereich (ID)"
+    },
+    "verteilt_auf_alle": {
+      "type": "boolean",
+      "default": false
+    },
+    "kategorie": {
+      "type": "string",
+      "enum": [
+        "pflege",
+        "nachtwache",
+        "pflegedienstleitung",
+        "leitung",
+        "betreuung_43b",
+        "gfb",
+        "sonstiges",
+        "kueche_reinigung",
+        "verwaltung",
+        "azubi"
+      ],
+      "default": "pflege"
+    },
+    "berufsbezeichnung": {
+      "type": "string"
+    },
+    "tarifgruppe": {
+      "type": "string",
+      "description": "Tarifgruppe (z.B. KR, PF, HK)"
+    },
+    "tarifstufe": {
+      "type": "string",
+      "description": "Tarifstufe (z.B. 1-6)"
+    },
+    "wochenstunden": {
+      "type": "number",
+      "default": 0
+    },
+    "vk_pfk": {
+      "type": "number",
+      "default": 0
+    },
+    "vk_phk_mit_ausbildung": {
+      "type": "number",
+      "default": 0
+    },
+    "vk_phk_ohne_ausbildung": {
+      "type": "number",
+      "default": 0
+    },
+    "vk_geronto": {
+      "type": "number",
+      "default": 0
+    },
+    "ist_leiharbeiter": {
+      "type": "boolean",
+      "default": false
+    },
+    "leih_pfk": {
+      "type": "number",
+      "default": 0
+    },
+    "leih_phk_mit": {
+      "type": "number",
+      "default": 0
+    },
+    "leih_phk_ohne": {
+      "type": "number",
+      "default": 0
+    },
+    "monatsgehalt_vertrag": {
+      "type": "number",
+      "default": 0,
+      "description": "Monatliches Gehalt laut Vertrag"
+    },
+    "monatsgehalt_brutto": {
+      "type": "number",
+      "default": 0
+    },
+    "funktionszulagen": {
+      "type": "number",
+      "default": 0
+    },
+    "zuschlaege_steuerfrei": {
+      "type": "number",
+      "default": 0,
+      "description": "Steuerfreie Sonn-, Feiertags- und Nachtzuschl\u00e4ge"
+    },
+    "sv_ag_anteil": {
+      "type": "number",
+      "default": 0,
+      "description": "Tats\u00e4chlicher Arbeitgeberanteil Sozialversicherung (EUR)"
+    },
+    "eintrittsdatum": {
+      "type": "string",
+      "format": "date"
+    },
+    "befristet_bis": {
+      "type": "string",
+      "format": "date"
+    },
+    "bemerkung": {
+      "type": "string"
+    },
+    "funktion": {
+      "type": "string"
+    },
+    "vk_anteil": {
+      "type": "number",
+      "default": 0
+    },
+    "ausbildungsjahr": {
+      "type": "number"
+    },
+    "aktiv": {
+      "type": "boolean",
+      "default": true
+    },
+    "archiviert": {
+      "type": "boolean",
+      "default": false,
+      "description": "Archiviert \u2013 wird aus Standardansicht ausgeblendet"
+    },
+    "ist_gfb": {
+      "type": "boolean",
+      "default": false,
+      "description": "Geringf\u00fcgig besch\u00e4ftigt"
+    },
+    "monatsstunden_gfb": {
+      "type": "number",
+      "default": 0,
+      "description": "Monatsstunden bei geringf\u00fcgiger Besch\u00e4ftigung"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "name": "Verguetung",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "bezeichnung": {
+      "type": "string"
+    },
+    "gueltig_ab": {
+      "type": "string",
+      "format": "date"
+    },
+    "gueltig_bis": {
+      "type": "string",
+      "format": "date"
+    },
+    "pflegesatz_pg2": {
+      "type": "number",
+      "default": 0
+    },
+    "pflegesatz_pg3": {
+      "type": "number",
+      "default": 0
+    },
+    "pflegesatz_pg4": {
+      "type": "number",
+      "default": 0
+    },
+    "pflegesatz_pg5": {
+      "type": "number",
+      "default": 0
+    },
+    "investitionskosten": {
+      "type": "number",
+      "default": 0
+    },
+    "unterkunft_verpflegung": {
+      "type": "number",
+      "default": 0
+    },
+    "ausbildungsumlage": {
+      "type": "number",
+      "default": 0
+    },
+    "zusaetzliche_betreuung_43b": {
+      "type": "number",
+      "default": 0
+    },
+    "bemerkung": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bezeichnung"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

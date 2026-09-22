@@ -1,0 +1,54 @@
+{
+  "name": "SachkostenKategorien",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name der Sachkosten-Kategorie"
+    },
+    "beschreibung": {
+      "type": "string",
+      "description": "Beschreibung der Kategorie"
+    },
+    "aktiv": {
+      "type": "boolean",
+      "default": true,
+      "description": "Kategorie aktiv"
+    },
+    "standard_sachkonto": {
+      "type": "string",
+      "description": "Standard-Sachkonto f\u00fcr Auto-Zuordnung"
+    },
+    "toleranz_prozent": {
+      "type": "number",
+      "default": 5,
+      "description": "Toleranzgrenze in Prozent"
+    },
+    "sortierung": {
+      "type": "number",
+      "default": 0,
+      "description": "Sortierreihenfolge"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

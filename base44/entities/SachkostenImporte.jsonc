@@ -1,0 +1,88 @@
+{
+  "name": "SachkostenImporte",
+  "type": "object",
+  "properties": {
+    "dateiname": {
+      "type": "string",
+      "description": "Dateiname der importierten Datei"
+    },
+    "importdatum": {
+      "type": "string",
+      "format": "date",
+      "description": "Datum des Imports"
+    },
+    "leistungsmonat": {
+      "type": "string",
+      "description": "Leistungsmonat im Format YYYY-MM"
+    },
+    "benutzer": {
+      "type": "string",
+      "description": "Benutzer, der den Import durchgef\u00fchrt hat"
+    },
+    "anzahl_zeilen": {
+      "type": "number",
+      "default": 0,
+      "description": "Anzahl der gelesenen Zeilen"
+    },
+    "anzahl_importiert": {
+      "type": "number",
+      "default": 0,
+      "description": "Anzahl der importierten Buchungen"
+    },
+    "anzahl_duplikate": {
+      "type": "number",
+      "default": 0,
+      "description": "Anzahl der erkannten Duplikate"
+    },
+    "anzahl_fehler": {
+      "type": "number",
+      "default": 0,
+      "description": "Anzahl der fehlerhaften Zeilen"
+    },
+    "gesamtsumme": {
+      "type": "number",
+      "default": 0,
+      "description": "Gesamtsumme der importierten Betr\u00e4ge"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "abgeschlossen",
+        "fehler",
+        "abgebrochen"
+      ],
+      "default": "abgeschlossen",
+      "description": "Import-Status"
+    },
+    "fehlerprotokoll": {
+      "type": "string",
+      "description": "Fehlerprotokoll"
+    }
+  },
+  "required": [
+    "dateiname",
+    "importdatum"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

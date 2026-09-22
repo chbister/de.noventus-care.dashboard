@@ -1,0 +1,65 @@
+{
+  "name": "HandbuchDokumente",
+  "type": "object",
+  "properties": {
+    "titel": {
+      "type": "string",
+      "description": "Anzeigename des Dokuments"
+    },
+    "kategorie": {
+      "type": "string",
+      "enum": [
+        "MediFox",
+        "DATEV",
+        "Anleitung",
+        "Sonstiges"
+      ],
+      "default": "Sonstiges",
+      "description": "Kategorie zur Gruppierung"
+    },
+    "dateiname": {
+      "type": "string",
+      "description": "Originaldateiname"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL zur hochgeladenen PDF"
+    },
+    "bemerkung": {
+      "type": "string",
+      "description": "Optionale Notiz"
+    }
+  },
+  "required": [
+    "titel",
+    "file_url"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

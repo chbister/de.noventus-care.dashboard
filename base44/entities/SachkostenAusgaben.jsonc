@@ -1,0 +1,138 @@
+{
+  "name": "SachkostenAusgaben",
+  "type": "object",
+  "properties": {
+    "buchungsdatum": {
+      "type": "string",
+      "format": "date",
+      "description": "Buchungsdatum"
+    },
+    "leistungsmonat": {
+      "type": "string",
+      "description": "Leistungsmonat im Format YYYY-MM"
+    },
+    "belegnummer": {
+      "type": "string",
+      "description": "Belegnummer"
+    },
+    "lieferant": {
+      "type": "string",
+      "description": "Lieferant"
+    },
+    "sachkonto": {
+      "type": "string",
+      "description": "Sachkonto"
+    },
+    "kostenstelle": {
+      "type": "string",
+      "description": "Kostenstelle"
+    },
+    "buchungstext": {
+      "type": "string",
+      "description": "Buchungstext"
+    },
+    "nettobetrag": {
+      "type": "number",
+      "default": 0,
+      "description": "Nettobetrag in EUR"
+    },
+    "bruttobetrag": {
+      "type": "number",
+      "default": 0,
+      "description": "Bruttobetrag in EUR"
+    },
+    "verwendeter_betrag": {
+      "type": "number",
+      "default": 0,
+      "description": "Verwendeter Betrag f\u00fcr Berechnung (Netto oder Brutto)"
+    },
+    "kategorie_id": {
+      "type": "string",
+      "description": "Zugeordnete Kategorie (ID)"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "wohnbereich_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6riger Wohnbereich (optional)"
+    },
+    "import_vorgang_id": {
+      "type": "string",
+      "description": "Import-Vorgangs-ID"
+    },
+    "buchungsschluessel": {
+      "type": "string",
+      "description": "Schl\u00fcssel f\u00fcr Duplikatserkennung"
+    },
+    "zuordnungsstatus": {
+      "type": "string",
+      "enum": [
+        "zugeordnet",
+        "offen"
+      ],
+      "default": "offen",
+      "description": "Zuordnungsstatus"
+    },
+    "ist_storniert": {
+      "type": "boolean",
+      "default": false,
+      "description": "Buchung storniert"
+    }
+  },
+  "required": [
+    "buchungsdatum",
+    "leistungsmonat",
+    "einrichtung_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

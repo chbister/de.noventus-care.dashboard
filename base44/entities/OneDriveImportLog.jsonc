@@ -1,0 +1,123 @@
+{
+  "name": "OneDriveImportLog",
+  "type": "object",
+  "properties": {
+    "dateiname": {
+      "type": "string",
+      "description": "Dateiname aus OneDrive"
+    },
+    "importdatum": {
+      "type": "string",
+      "format": "date",
+      "description": "Datum des Imports"
+    },
+    "bereich": {
+      "type": "string",
+      "enum": [
+        "mitarbeiter_datev",
+        "mitarbeiter_medifox",
+        "sachkosten",
+        "fehlzeiten",
+        "medifox_abrechnung",
+        "bewohner",
+        "bewohner_kosten",
+        "kontoblatt"
+      ],
+      "description": "Import-Bereich"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "einrichtung_name": {
+      "type": "string",
+      "description": "Name der Einrichtung"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "erfolg",
+        "fehler",
+        "uebersprungen"
+      ],
+      "default": "erfolg",
+      "description": "Import-Status"
+    },
+    "detail": {
+      "type": "string",
+      "description": "Ergebnis oder Fehlermeldung"
+    },
+    "anzahl_neu": {
+      "type": "number",
+      "default": 0,
+      "description": "Neu angelegte Datens\u00e4tze"
+    },
+    "anzahl_aktualisiert": {
+      "type": "number",
+      "default": 0,
+      "description": "Aktualisierte Datens\u00e4tze"
+    },
+    "one_drive_item_id": {
+      "type": "string",
+      "description": "OneDrive Item ID f\u00fcr Deduplikation"
+    },
+    "one_drive_modified": {
+      "type": "string",
+      "description": "Zuletzt ge\u00e4ndert laut OneDrive (ISO)"
+    }
+  },
+  "required": [
+    "dateiname",
+    "bereich",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

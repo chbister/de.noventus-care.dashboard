@@ -1,0 +1,83 @@
+{
+  "name": "SachkontoZuordnungen",
+  "type": "object",
+  "properties": {
+    "sachkonto_von": {
+      "type": "string",
+      "description": "Sachkonto von (Bereichsanfang)"
+    },
+    "sachkonto_bis": {
+      "type": "string",
+      "description": "Sachkonto bis (Bereichsende)"
+    },
+    "sachkonto_exakt": {
+      "type": "string",
+      "description": "Exaktes Sachkonto (Alternative zum Bereich)"
+    },
+    "kategorie_id": {
+      "type": "string",
+      "description": "Zugeordnete Kategorie (ID)"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (leer = alle Einrichtungen)"
+    },
+    "aktiv": {
+      "type": "boolean",
+      "default": true,
+      "description": "Zuordnung aktiv"
+    }
+  },
+  "required": [
+    "kategorie_id"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

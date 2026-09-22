@@ -1,0 +1,87 @@
+{
+  "name": "Import_Snapshot",
+  "type": "object",
+  "properties": {
+    "snapshot_name": {
+      "type": "string",
+      "description": "Name des Snapshots (z.B. Vor_MediFox_Import_KW15_2026)"
+    },
+    "snapshot_datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Wann wurde der Snapshot erstellt?"
+    },
+    "import_quelle": {
+      "type": "string",
+      "enum": [
+        "MediFox",
+        "ERP",
+        "Manuell"
+      ],
+      "description": "Von welcher Quelle stammt der Daten-Import?"
+    },
+    "import_batch": {
+      "type": "string",
+      "description": "Batch-ID (z.B. KW15_2026)"
+    },
+    "anzahl_datensaetze": {
+      "type": "number",
+      "default": 0,
+      "description": "Anzahl der Datens\u00e4tze vor dem Import"
+    },
+    "anzahl_leistungen": {
+      "type": "number",
+      "default": 0,
+      "description": "Summe aller Leistungen (Stunden)"
+    },
+    "checksum": {
+      "type": "string",
+      "description": "Hashwert zur Integrit\u00e4t (optional)"
+    },
+    "bereich": {
+      "type": "string",
+      "enum": [
+        "Tagespflege",
+        "EGH",
+        "Betreutes Wohnen",
+        "Gesamt"
+      ],
+      "description": "Welcher Bereich wird gesichert?"
+    },
+    "notiz": {
+      "type": "string",
+      "description": "Interne Hinweise (z.B. Grund des Snapshots)"
+    },
+    "erstellt_von": {
+      "type": "string",
+      "description": "Benutzer, der den Snapshot erstellt hat"
+    }
+  },
+  "required": [
+    "snapshot_name",
+    "snapshot_datum",
+    "import_quelle"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

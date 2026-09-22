@@ -1,0 +1,67 @@
+{
+  "name": "WohneinheitenStamm",
+  "type": "object",
+  "properties": {
+    "wohneinheit_id": {
+      "type": "string",
+      "description": "Eindeutige ID (z.B. WE-01)"
+    },
+    "bezeichnung": {
+      "type": "string",
+      "description": "Bezeichnung (z.B. Apartment 101, EG)"
+    },
+    "flaeche_qm": {
+      "type": "number",
+      "description": "Fl\u00e4che in Quadratmetern"
+    },
+    "kostenstelle": {
+      "type": "string",
+      "description": "Kostenstelle aus ERP"
+    },
+    "soll_kaltmiete": {
+      "type": "number",
+      "default": 0,
+      "description": "Sollmiete Kalt in EUR"
+    },
+    "soll_nebenkosten": {
+      "type": "number",
+      "default": 0,
+      "description": "Sollmiete Nebenkosten in EUR"
+    },
+    "soll_grundservice": {
+      "type": "number",
+      "default": 0,
+      "description": "Pauschale Grundservice in EUR"
+    },
+    "status_aktiv": {
+      "type": "boolean",
+      "default": true,
+      "description": "Status aktiv"
+    }
+  },
+  "required": [
+    "wohneinheit_id",
+    "bezeichnung"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "name": "BewohnerAbwesenheiten",
+  "type": "object",
+  "properties": {
+    "bewohner_id": {
+      "type": "string",
+      "description": "Bewohner-ID"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "von_datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Abwesenheit von"
+    },
+    "bis_datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Abwesenheit bis"
+    },
+    "abwesenheitsart": {
+      "type": "string",
+      "description": "Art der Abwesenheit (Krankenhaus, Urlaub, etc.)"
+    },
+    "von_belegungstagen_abziehen": {
+      "type": "boolean",
+      "default": true,
+      "description": "Sollen die Abwesenheitstage von den Belegungstagen abgezogen werden?"
+    },
+    "bemerkung": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bewohner_id",
+    "von_datum"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "name": "EGH_Leistungserfassung",
+  "type": "object",
+  "properties": {
+    "datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Wann fand die Leistung statt?"
+    },
+    "klienten_id": {
+      "type": "string",
+      "description": "Verkn\u00fcpfung zu Klienten_Stamm"
+    },
+    "dauer_minuten": {
+      "type": "number",
+      "default": 0,
+      "description": "Erbrachte Zeit in Minuten"
+    },
+    "stunden_dezimal": {
+      "type": "number",
+      "default": 0,
+      "description": "Erbrachte Zeit in Dezimalstunden (Dauer_Minuten / 60)"
+    },
+    "mitarbeiter_id": {
+      "type": "string",
+      "description": "Wer hat die Leistung erbracht?"
+    },
+    "mitarbeiter_qualifikation": {
+      "type": "string",
+      "enum": [
+        "Fachkraft",
+        "Assistenzkraft",
+        "Sonstiges"
+      ],
+      "default": "Assistenzkraft",
+      "description": "Qualifikation des Mitarbeiters"
+    },
+    "abrechenbar": {
+      "type": "boolean",
+      "default": true,
+      "description": "Ist die Leistung gegen\u00fcber dem Tr\u00e4ger fakturierbar?"
+    },
+    "bemerkung": {
+      "type": "string",
+      "description": "Notiz zur Leistung"
+    }
+  },
+  "required": [
+    "datum",
+    "klienten_id",
+    "dauer_minuten"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

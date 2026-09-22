@@ -1,0 +1,72 @@
+{
+  "name": "EGH_Klienten",
+  "type": "object",
+  "properties": {
+    "klienten_id": {
+      "type": "string",
+      "description": "Eindeutige ID (z.B. K-10023)"
+    },
+    "leistungstyp": {
+      "type": "string",
+      "enum": [
+        "Qualifizierte Assistenz",
+        "Einfache Assistenz",
+        "TS"
+      ],
+      "description": "Art der Eingliederungshilfe"
+    },
+    "fls_bewilligung_woche": {
+      "type": "number",
+      "default": 0,
+      "description": "Bewilligte Stunden pro Woche laut Bescheid"
+    },
+    "bescheid_gueltig_bis": {
+      "type": "string",
+      "format": "date",
+      "description": "G\u00fcltigkeit des Bescheids"
+    },
+    "kostentraeger": {
+      "type": "string",
+      "description": "z.B. LVR, LWL, \u00f6rtlicher Tr\u00e4ger"
+    },
+    "status_bescheid": {
+      "type": "string",
+      "enum": [
+        "\u2705 Aktiv",
+        "\u26a0\ufe0f VERL\u00c4NGERUNG BEANTRAGEN"
+      ],
+      "default": "\u2705 Aktiv",
+      "description": "Status basierend auf G\u00fcltigkeitsfrist"
+    },
+    "notiz": {
+      "type": "string",
+      "description": "Interne Notizen"
+    }
+  },
+  "required": [
+    "klienten_id",
+    "leistungstyp",
+    "fls_bewilligung_woche"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

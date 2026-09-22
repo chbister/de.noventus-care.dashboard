@@ -1,0 +1,58 @@
+{
+  "name": "ChatGroup",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Gruppenname"
+    },
+    "mitglieder": {
+      "type": "string",
+      "description": "Komma-getrennte Liste der User-IDs"
+    },
+    "mitglieder_namen": {
+      "type": "string",
+      "description": "Komma-getrennte Liste der Anzeigenamen (Snapshot)"
+    },
+    "erstellt_von": {
+      "type": "string",
+      "description": "User-ID des Erstellers"
+    },
+    "erstellt_von_name": {
+      "type": "string",
+      "description": "Name des Erstellers"
+    }
+  },
+  "required": [
+    "name",
+    "mitglieder"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

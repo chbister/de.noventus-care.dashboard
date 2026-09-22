@@ -1,0 +1,81 @@
+{
+  "name": "BetreutesWohnenPersonal",
+  "type": "object",
+  "properties": {
+    "monat_jahr": {
+      "type": "string",
+      "format": "date",
+      "description": "Monats-Datum"
+    },
+    "mitarbeiter_id": {
+      "type": "string",
+      "description": "Mitarbeiter-ID"
+    },
+    "bereich": {
+      "type": "string",
+      "enum": [
+        "Betreuung",
+        "Hauswirtschaft",
+        "Pflege",
+        "Verwaltung",
+        "Sonstiges"
+      ],
+      "description": "T\u00e4tigkeitsbereich"
+    },
+    "soll_stunden": {
+      "type": "number",
+      "default": 0,
+      "description": "Soll-Stunden laut Vertrag"
+    },
+    "ist_stunden_gesamt": {
+      "type": "number",
+      "default": 0,
+      "description": "Ist-Stunden gesamt"
+    },
+    "stunden_direkte_betreuung": {
+      "type": "number",
+      "default": 0,
+      "description": "Zeit am Klienten (direkte Betreuung)"
+    },
+    "stunden_indirekt": {
+      "type": "number",
+      "default": 0,
+      "description": "Indirekte Zeit (Orga, Dokumentation)"
+    },
+    "fehlzeiten_h": {
+      "type": "number",
+      "default": 0,
+      "description": "Fehlzeitstunden"
+    },
+    "personalkosten_brutto": {
+      "type": "number",
+      "default": 0,
+      "description": "Personalkosten Brutto in EUR"
+    }
+  },
+  "required": [
+    "monat_jahr",
+    "mitarbeiter_id"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

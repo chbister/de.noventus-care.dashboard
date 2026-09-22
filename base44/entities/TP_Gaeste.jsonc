@@ -1,0 +1,80 @@
+{
+  "name": "TP_Gaeste",
+  "type": "object",
+  "properties": {
+    "gast_id": {
+      "type": "string",
+      "description": "Eindeutige Gast-ID (z.B. G-501)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name des Gastes"
+    },
+    "pflegegrad": {
+      "type": "string",
+      "enum": [
+        "PG1",
+        "PG2",
+        "PG3",
+        "PG4",
+        "PG5"
+      ],
+      "description": "Pflegegrad"
+    },
+    "vereinbarte_tage_woche": {
+      "type": "number",
+      "default": 0,
+      "description": "Vereinbarte Besuchstage pro Woche"
+    },
+    "fahrdienst_nutzer": {
+      "type": "boolean",
+      "default": false,
+      "description": "Nutzt den Fahrdienst?"
+    },
+    "budget_sgb_xi_monat": {
+      "type": "number",
+      "default": 0,
+      "description": "Monatliches Budget laut Pflegegrad (EUR)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Aktiv",
+        "Ausscheidend",
+        "Pausiert"
+      ],
+      "default": "Aktiv",
+      "description": "Status"
+    },
+    "notiz": {
+      "type": "string",
+      "description": "Interne Notizen"
+    }
+  },
+  "required": [
+    "gast_id",
+    "pflegegrad",
+    "vereinbarte_tage_woche"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

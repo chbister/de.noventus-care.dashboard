@@ -1,0 +1,90 @@
+{
+  "name": "SachkostenBudgetwerte",
+  "type": "object",
+  "properties": {
+    "kategorie_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Kategorie (ID)"
+    },
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "wohnbereich_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6riger Wohnbereich (optional, leer = gesamte Einrichtung)"
+    },
+    "betrag_je_belegungstag": {
+      "type": "number",
+      "default": 0,
+      "description": "Budgetbetrag pro Belegungstag in EUR"
+    },
+    "gueltig_ab": {
+      "type": "string",
+      "format": "date",
+      "description": "G\u00fcltig ab"
+    },
+    "gueltig_bis": {
+      "type": "string",
+      "format": "date",
+      "description": "G\u00fcltig bis (leer = unbegrenzt)"
+    },
+    "bemerkung": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "kategorie_id",
+    "einrichtung_id",
+    "gueltig_ab"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

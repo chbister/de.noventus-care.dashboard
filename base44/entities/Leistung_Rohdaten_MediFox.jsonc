@@ -1,0 +1,113 @@
+{
+  "name": "Leistung_Rohdaten_MediFox",
+  "type": "object",
+  "properties": {
+    "import_datum": {
+      "type": "string",
+      "format": "date",
+      "description": "Datum des Imports aus MediFox"
+    },
+    "import_batch": {
+      "type": "string",
+      "description": "Batch-ID des Imports (z.B. KW12_2026)"
+    },
+    "leistungsdatum": {
+      "type": "string",
+      "format": "date",
+      "description": "Wann wurde die Leistung erbracht?"
+    },
+    "klienten_id_medifox": {
+      "type": "string",
+      "description": "Klienten-ID aus MediFox"
+    },
+    "klienten_id_base44": {
+      "type": "string",
+      "description": "Zugeordnete Klienten-ID in Base44"
+    },
+    "pflegegrad": {
+      "type": "string",
+      "enum": [
+        "PG1",
+        "PG2",
+        "PG3",
+        "PG4",
+        "PG5"
+      ],
+      "description": "Pflegegrad zum Leistungsdatum"
+    },
+    "kst_nr": {
+      "type": "string",
+      "description": "Kostenstelle aus MediFox"
+    },
+    "l_art": {
+      "type": "string",
+      "description": "Leistungsart (SGB11, SGB12, PRIVAT, etc.)"
+    },
+    "ma_handzeichen": {
+      "type": "string",
+      "description": "Mitarbeiter-Handzeichen aus MediFox"
+    },
+    "stunden": {
+      "type": "number",
+      "default": 0,
+      "description": "Erbrachte Stunden (dezimal)"
+    },
+    "status_validierung": {
+      "type": "string",
+      "enum": [
+        "\u2705 OK",
+        "\u26a0\ufe0f Dublette",
+        "\u26a0\ufe0f PG alt",
+        "\u274c Fehler"
+      ],
+      "default": "\u2705 OK",
+      "description": "Validierungsstatus"
+    },
+    "status_mapping": {
+      "type": "string",
+      "enum": [
+        "\u2705 Zugeordnet",
+        "\u26a0\ufe0f Teilweise",
+        "\u274c Fehlend"
+      ],
+      "default": "\u26a0\ufe0f Teilweise",
+      "description": "Mapping-Status"
+    },
+    "fehlermeldung": {
+      "type": "string",
+      "description": "Detaillierte Fehlerbeschreibung"
+    },
+    "erloes_tagessatz": {
+      "type": "number",
+      "default": 0,
+      "description": "Berechneter Erl\u00f6s basierend auf PG und Tagessatz"
+    }
+  },
+  "required": [
+    "import_datum",
+    "import_batch",
+    "leistungsdatum",
+    "klienten_id_medifox"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

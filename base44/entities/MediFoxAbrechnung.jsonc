@@ -1,0 +1,109 @@
+{
+  "name": "MediFoxAbrechnung",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "jahr": {
+      "type": "number",
+      "description": "Abrechnungsjahr"
+    },
+    "monat": {
+      "type": "number",
+      "description": "Abrechnungsmonat (1-12)"
+    },
+    "abkuerzung": {
+      "type": "string",
+      "description": "Leistungsk\u00fcrzel (z.B. \u00a743b M, PG3, IVK)"
+    },
+    "bezeichnung": {
+      "type": "string",
+      "description": "Leistungsbezeichnung"
+    },
+    "leistungsgruppe": {
+      "type": "string",
+      "description": "Leistungsgruppe"
+    },
+    "einzelpreis": {
+      "type": "number",
+      "default": 0,
+      "description": "Einzelpreis in EUR"
+    },
+    "abger_anzahl": {
+      "type": "number",
+      "default": 0,
+      "description": "Abgerechnete Anzahl"
+    },
+    "abger_betrag": {
+      "type": "number",
+      "default": 0,
+      "description": "Abgerechneter Betrag in EUR"
+    },
+    "zeitraum_von": {
+      "type": "string",
+      "format": "date",
+      "description": "Abrechnungszeitraum von"
+    },
+    "zeitraum_bis": {
+      "type": "string",
+      "format": "date",
+      "description": "Abrechnungszeitraum bis"
+    }
+  },
+  "required": [
+    "jahr",
+    "monat",
+    "abkuerzung"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

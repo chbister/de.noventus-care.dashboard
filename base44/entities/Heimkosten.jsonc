@@ -1,0 +1,104 @@
+{
+  "name": "Heimkosten",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "bereich": {
+      "type": "string",
+      "enum": [
+        "station\u00e4r",
+        "tagespflege"
+      ],
+      "default": "station\u00e4r"
+    },
+    "kostenart": {
+      "type": "string",
+      "enum": [
+        "W\u00e4sche",
+        "Lebensmitteleinkauf",
+        "Pflegebedarf",
+        "Sonstiges"
+      ],
+      "default": "Sonstiges",
+      "description": "Kostenart f\u00fcr Benchmarking"
+    },
+    "monat": {
+      "type": "string",
+      "format": "date"
+    },
+    "gesamtbetrag": {
+      "type": "number",
+      "default": 0
+    },
+    "belegungstage": {
+      "type": "number",
+      "default": 0,
+      "description": "Belegungstage im Monat (aus MediFox)"
+    },
+    "archiviert": {
+      "type": "boolean",
+      "default": false,
+      "description": "Archiviert \u2013 wird aus Standardansicht ausgeblendet"
+    },
+    "bemerkung": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bereich",
+    "monat",
+    "gesamtbetrag"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

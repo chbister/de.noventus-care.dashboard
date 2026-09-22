@@ -1,0 +1,71 @@
+{
+  "name": "ChatMessage",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Nachrichteninhalt"
+    },
+    "sender_id": {
+      "type": "string",
+      "description": "ID des Absenders (User-ID)"
+    },
+    "sender_name": {
+      "type": "string",
+      "description": "Name des Absenders zum Zeitpunkt des Sendens"
+    },
+    "sender_email": {
+      "type": "string",
+      "description": "E-Mail des Absenders"
+    },
+    "empfaenger_id": {
+      "type": "string",
+      "description": "Empf\u00e4nger-ID (leer = Team-Chat an alle)"
+    },
+    "group_id": {
+      "type": "string",
+      "description": "Gruppen-ID bei Gruppen-Nachrichten (leer = Team- oder Direktnachricht)"
+    },
+    "is_direct": {
+      "type": "boolean",
+      "default": false,
+      "description": "Direktnachricht (true) oder Team-Chat (false)"
+    },
+    "gelesen_von": {
+      "type": "string",
+      "description": "Komma-getrennte Liste der User-IDs, die die Nachricht gelesen haben"
+    }
+  },
+  "required": [
+    "text",
+    "sender_id"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

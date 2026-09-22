@@ -1,0 +1,120 @@
+{
+  "name": "Tagespflege",
+  "type": "object",
+  "properties": {
+    "einrichtung_id": {
+      "type": "string",
+      "description": "Zugeh\u00f6rige Einrichtung (ID)"
+    },
+    "name": {
+      "type": "string"
+    },
+    "sollbelegung": {
+      "type": "number",
+      "default": 20
+    },
+    "belegung_ruestige": {
+      "type": "number",
+      "default": 0
+    },
+    "belegung_pg0": {
+      "type": "number",
+      "default": 0
+    },
+    "belegung_pg1": {
+      "type": "number",
+      "default": 0
+    },
+    "belegung_pg2": {
+      "type": "number",
+      "default": 0
+    },
+    "belegung_pg3": {
+      "type": "number",
+      "default": 0
+    },
+    "belegung_pg4": {
+      "type": "number",
+      "default": 0
+    },
+    "belegung_pg5": {
+      "type": "number",
+      "default": 0
+    },
+    "geplant_pg2": {
+      "type": "number",
+      "default": 0
+    },
+    "geplant_pg3": {
+      "type": "number",
+      "default": 0
+    },
+    "geplant_pg4": {
+      "type": "number",
+      "default": 0
+    },
+    "geplant_pg5": {
+      "type": "number",
+      "default": 0
+    },
+    "kommentar": {
+      "type": "string"
+    },
+    "stichtag": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.einrichtung_id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

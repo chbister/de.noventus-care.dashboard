@@ -1,0 +1,189 @@
+{
+  "name": "Einrichtung",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name der Einrichtung"
+    },
+    "standort": {
+      "type": "string",
+      "description": "Standort"
+    },
+    "bereich": {
+      "type": "string",
+      "description": "Bereichskennzeichnung (z.B. tagespflege, eingliederungshilfe, betreutes_wohnen)"
+    },
+    "vollzeit_wochenstunden": {
+      "type": "number",
+      "default": 40,
+      "description": "Vollzeit-Wochenstunden f\u00fcr VK-Berechnung"
+    },
+    "personalmodell": {
+      "type": "string",
+      "enum": [
+        "pebem",
+        "neu"
+      ],
+      "default": "pebem",
+      "description": "Personalschl\u00fcssel-Modell f\u00fcr PDF-Berechnung (pebem = PeBeM VK-Bedarf, neu = 1-zu-X Ratio)"
+    },
+    "pebem_aktiv": {
+      "type": "boolean",
+      "default": true,
+      "description": "PeBeM-Personalschl\u00fcssel aktiv"
+    },
+    "schluessel_pg2_fk": {
+      "type": "number",
+      "default": 0.1017
+    },
+    "schluessel_pg2_hk_mit": {
+      "type": "number",
+      "default": 0.0136
+    },
+    "schluessel_pg2_hk_ohne": {
+      "type": "number",
+      "default": 0.1173
+    },
+    "schluessel_pg3_fk": {
+      "type": "number",
+      "default": 0.1521
+    },
+    "schluessel_pg3_hk_mit": {
+      "type": "number",
+      "default": 0.0217
+    },
+    "schluessel_pg3_hk_ohne": {
+      "type": "number",
+      "default": 0.1414
+    },
+    "schluessel_pg4_fk": {
+      "type": "number",
+      "default": 0.2416
+    },
+    "schluessel_pg4_hk_mit": {
+      "type": "number",
+      "default": 0.0285
+    },
+    "schluessel_pg4_hk_ohne": {
+      "type": "number",
+      "default": 0.1588
+    },
+    "schluessel_pg5_fk": {
+      "type": "number",
+      "default": 0.3768
+    },
+    "schluessel_pg5_hk_mit": {
+      "type": "number",
+      "default": 0.0223
+    },
+    "schluessel_pg5_hk_ohne": {
+      "type": "number",
+      "default": 0.1716
+    },
+    "schluessel_43b": {
+      "type": "number",
+      "default": 20,
+      "description": "\u00a743b Schl\u00fcssel (1 Kraft pro X Bewohner)"
+    },
+    "sollvorgabe_pro_vk": {
+      "type": "number",
+      "default": 0,
+      "description": "Sollvorgabe pro VK in EUR"
+    },
+    "begl_dienst_schluessel": {
+      "type": "number",
+      "default": 36.25,
+      "description": "Begleitender Dienst Schl\u00fcssel"
+    },
+    "neu_pg1_ratio": {
+      "type": "number",
+      "default": 6.283,
+      "description": "PG1: 1 Kraft pro X Bewohner"
+    },
+    "neu_pg2_ratio": {
+      "type": "number",
+      "default": 4.229,
+      "description": "PG2: 1 Kraft pro X Bewohner"
+    },
+    "neu_pg3_ratio": {
+      "type": "number",
+      "default": 3.037,
+      "description": "PG3: 1 Kraft pro X Bewohner"
+    },
+    "neu_pg4_ratio": {
+      "type": "number",
+      "default": 2.347,
+      "description": "PG4: 1 Kraft pro X Bewohner"
+    },
+    "neu_pg5_ratio": {
+      "type": "number",
+      "default": 2.129,
+      "description": "PG5: 1 Kraft pro X Bewohner"
+    },
+    "neu_fachkraftquote": {
+      "type": "number",
+      "default": 49.99,
+      "description": "Kalkulatorische Fachkraftquote in %"
+    },
+    "neu_anteil_fachkraefte": {
+      "type": "number",
+      "default": 50.0,
+      "description": "Anteil Fachkr\u00e4fte in der Pflege in %"
+    },
+    "neu_leitung_verwaltung": {
+      "type": "number",
+      "default": 24.0,
+      "description": "Leitung und Verwaltung: 1 Kraft pro X Bewohner"
+    },
+    "neu_wirtschaftsdienst": {
+      "type": "number",
+      "default": 6.0,
+      "description": "Wirtschaftsdienst: 1 Kraft pro X Bewohner"
+    },
+    "neu_technischer_dienst": {
+      "type": "number",
+      "default": 69.0,
+      "description": "Technischer Dienst: 1 Kraft pro X Bewohner"
+    },
+    "neu_qualitaetsmanagement": {
+      "type": "number",
+      "default": 110.0,
+      "description": "Qualit\u00e4tsmanagement: 1 Kraft pro X Bewohner"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "id": {
+            "$in": "{{user.data.erlaubte_einrichtungen}}"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
